@@ -1,0 +1,2 @@
+module FavReposHelper
+end

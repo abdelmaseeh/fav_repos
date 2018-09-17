@@ -1,0 +1,7 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+#search-section, #fav-repos{
+  height: -webkit-fill-available;
+  margin-top: -30px;
+}
