@@ -1,23 +1,39 @@
 $(document).ready ->
 
+  #pagination
+#  $('#search-table').dataTable "pageLength": 10
+#  $('#fav-repos-table').dataTable "pageLength": 10
+#  $('search-table').DataTable()
+
+  #search button click handler
   $('.search-btn').on 'click', ->
     repoNam = $('#search-field').val() ;
     getGitHubRepos(repoNam)
 
+  #enter click handler
   window.onkeypress = (e) ->
     key = if e.keyCode then e.keyCode else e.which
     if key == 13
       repoNam = $('#search-field').val() ;
       getGitHubRepos(repoNam)
 
-getRowHtml = (repo, id) ->
+  $("#search-table").on "click","button#add-row-button", ->
+      tr = $(this).closest("tr").clone()
+      tr.find('button#add-row-button').prop('id', 'remove-row-button').html('Remove')
+      $("#fav-repos-table").append(tr)
+
+  $("#fav-repos-table").on "click","button#remove-row-button", ->
+      $(this).closest("tr").remove()
+
+
+getRowHtml = (repo) ->
   console.log(repo)
   """
-    <tr id="search-row-#{id}">
+    <tr>
       <td>#{repo.name}/#{repo.owner}</td>
       <td>#{repo.lang}</td>
       <td></td>
-      <td></td>
+      <td><button type="button" class="btn btn-link" id="add-row-button">Add</button></td>
     </tr>
   """
 
