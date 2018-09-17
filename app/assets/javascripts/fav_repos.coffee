@@ -5,6 +5,12 @@ $(document).ready ->
 #  $('#fav-repos-table').dataTable "pageLength": 10
 #  $('search-table').DataTable()
 
+  #clear search-table when search-text is cleared
+  $('#search-field').on 'input', (e) ->
+    input = $('#search-field').val()
+    if (!input)
+      $('#search-body').empty()
+
   #search button click handler
   $('.search-btn').on 'click', ->
     repoNam = $('#search-field').val() ;
@@ -17,11 +23,13 @@ $(document).ready ->
       repoNam = $('#search-field').val() ;
       getGitHubRepos(repoNam)
 
+  #add button event handler clone row from the search-table to fav-table
   $("#search-table").on "click","button#add-row-button", ->
       tr = $(this).closest("tr").clone()
       tr.find('button#add-row-button').prop('id', 'remove-row-button').html('Remove')
       $("#fav-repos-table").append(tr)
 
+  #remove button event handler remove row from the fav-table
   $("#fav-repos-table").on "click","button#remove-row-button", ->
       $(this).closest("tr").remove()
 
@@ -48,8 +56,7 @@ getGitHubRepos = (repoName) ->
     dataType: 'json',
     success: (data) ->
       repos = data.repos
-      id = 1
       $('#search-body').empty()
       for repo in repos
-        $('#search-table > tbody:last-child').append(getRowHtml(repo, id))
+        $('#search-table > tbody:last-child').append(getRowHtml(repo))
 
