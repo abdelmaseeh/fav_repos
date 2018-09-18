@@ -35,12 +35,11 @@ $(document).ready ->
 
 
 getRowHtml = (repo) ->
-  console.log(repo)
   """
     <tr>
       <td>#{repo.name}/#{repo.owner}</td>
       <td>#{repo.lang}</td>
-      <td></td>
+      <td>#{repo.tag}</td>
       <td><button type="button" class="btn btn-link" id="add-row-button">Add</button></td>
     </tr>
   """
@@ -48,7 +47,7 @@ getRowHtml = (repo) ->
 getGitHubRepos = (repoName) ->
   repoName = repoName.trim()
   if (repoName)
-    console.log(window.location.href + 'github_repos')
+    $('#search-body').empty()
     $.ajax window.location.href + 'github_repos',
     type: 'GET'
     data:
@@ -56,7 +55,8 @@ getGitHubRepos = (repoName) ->
     dataType: 'json',
     success: (data) ->
       repos = data.repos
-      $('#search-body').empty()
-      for repo in repos
-        $('#search-table > tbody:last-child').append(getRowHtml(repo))
-
+      if repos.length > 0
+        for repo in repos
+          $('#search-table > tbody:last-child').append(getRowHtml(repo))
+      else
+        alert("there is no repos with that name : #{repoName}")
