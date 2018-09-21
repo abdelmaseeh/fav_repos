@@ -1,10 +1,5 @@
 $(document).ready ->
 
-  #pagination
-#  $('#search-table').dataTable "pageLength": 10
-#  $('#fav-repos-table').dataTable "pageLength": 10
-#  $('search-table').DataTable()
-
   #clear search-table when search-text is cleared
   $('#search-field').on 'input', (e) ->
     input = $('#search-field').val()
@@ -34,7 +29,7 @@ $(document).ready ->
   $("#fav-repos-table").on "click","button#remove-row-button", ->
       $(this).closest("tr").remove()
 
-
+#convert repo date to table row html
 getRowHtml = (repo) ->
   """
     <tr>
@@ -45,6 +40,7 @@ getRowHtml = (repo) ->
     </tr>
   """
 
+#ajax call to get All repos with the repoName
 getGitHubRepos = (repoName) ->
   repoName = repoName.trim()
   if (repoName)
@@ -62,7 +58,7 @@ getGitHubRepos = (repoName) ->
       else
         alert("there is no repos with that name : #{repoName}")
 
-
+#change cursor to progress
 $(document).ajaxStart ->
   $(document.body).css 'cursor': 'wait'
 $(document).ajaxStop ->
