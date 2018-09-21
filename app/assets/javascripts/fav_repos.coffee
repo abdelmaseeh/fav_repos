@@ -14,6 +14,7 @@ $(document).ready ->
   #search button click handler
   $('.search-btn').on 'click', ->
     repoNam = $('#search-field').val() ;
+    $(document.body).css 'cursor': 'wait'
     getGitHubRepos(repoNam)
 
   #enter click handler
@@ -37,7 +38,7 @@ $(document).ready ->
 getRowHtml = (repo) ->
   """
     <tr>
-      <td>#{repo.name}/#{repo.owner}</td>
+      <td><a href="#{repo.html_url}">#{repo.name}/#{repo.owner}</a></td>
       <td>#{repo.lang}</td>
       <td>#{repo.tag}</td>
       <td><button type="button" class="btn btn-link" id="add-row-button">Add</button></td>
@@ -60,3 +61,9 @@ getGitHubRepos = (repoName) ->
           $('#search-table > tbody:last-child').append(getRowHtml(repo))
       else
         alert("there is no repos with that name : #{repoName}")
+
+
+$(document).ajaxStart ->
+  $(document.body).css 'cursor': 'wait'
+$(document).ajaxStop ->
+  $(document.body).css 'cursor': 'default'

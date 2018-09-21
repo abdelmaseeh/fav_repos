@@ -5,3 +5,8 @@
   height: -webkit-fill-available;
   margin-top: -30px;
 }
+
+.table-borderless td,
+.table-borderless th {
+  border: 0 !important;
+}

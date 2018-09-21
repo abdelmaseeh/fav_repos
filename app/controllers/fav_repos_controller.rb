@@ -4,10 +4,10 @@ class FavReposController < ApplicationController
 
   def github_repos
     begin
-      @client ||= Octokit::Client.new(:login => 'abdelmaseeh', :password => '01226738563se7a')
-      repos = @client.repos (params[:repo_name])
-      repos = repos.first(10)
-      repos.map!{|repo| {name: repo.name, owner: repo.owner.login, lang: repo.language, tag: getLatestTag(@client.tags(repo.id))}}
+      @client ||= Octokit::Client.new()
+      puts "params = #{params[:repo_name]}"
+      repos = @client.search_repos(params[:repo_name], {:per_page => 10}).items
+      repos.map!{|repo| {name: repo.name, owner: repo.owner.login, html_url: repo.html_url, lang: repo.language, tag: getLatestTag(@client.tags(repo.id))}}
       render json: { repos: repos }, status: :ok
     rescue
       render json: { repos: [] }, status: :ok
