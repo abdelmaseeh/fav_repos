@@ -9,7 +9,6 @@ $(document).ready ->
   #search button click handler
   $('.search-btn').on 'click', ->
     repoNam = $('#search-field').val() ;
-    $(document.body).css 'cursor': 'wait'
     getGitHubRepos(repoNam)
 
   #enter click handler
