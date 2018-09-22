@@ -52,23 +52,15 @@ getGitHubRepos = function(repoName) {
   }
 };
 
-
 getLatestTag = function(url) {
-  var versions = getTags(url);
-  var semver = require('semver-extra');
-  versions.sort(function (v1, v2) {
-    return semver.compare(v2.name, v1.name)
-  });
-
-  return versions.length > 0 ? versions[0].name : "-" ;
-};
-
-getTags = function(url){
+  url += "?sort=asc"
   var jqXHR = $.ajax({
     url: url,
     async: false
   });
-  return JSON.parse(jqXHR.responseText);
+  var versions = JSON.parse(jqXHR.responseText);
+  console.log(versions);
+  return versions.length > 0 ? versions[0].name : "-" ;
 };
 
 $(document).ajaxStart(function() {
